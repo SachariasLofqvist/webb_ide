@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 
-const Layout = () => {
+const Navbar = () => {
   return (
     <>
         <nav>
@@ -15,17 +15,8 @@ const Layout = () => {
                 <button>Home</button>
             </Link>
         </nav>
-
-        <footer>
-            <Link to={"/about"}>
-                <button>About</button>
-            </Link>
-            <Link to={"/contact"}>
-                <button>Contact</button>
-            </Link>
-        </footer>
     </>
   )
 }
 
-export default Layout
+export default Navbar

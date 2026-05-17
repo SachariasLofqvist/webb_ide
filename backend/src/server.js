@@ -1,0 +1,9 @@
+import express from "express";
+import notesRoutes from "./routes/notesRoutes.js"
+const app = express();
+
+app.use("/api/notes", notesRoutes);
+
+app.listen(8080, () => {
+    console.log("Server started on port 8080")
+});

@@ -8,9 +8,10 @@ import Dashboard from '../pages/Dashboard.jsx';
 import Contact from '../pages/Contact.jsx';
 import Login from '../pages/Login.jsx';
 import NotFound from '../pages/NotFound.jsx';
+import Landing from '../pages/Landing.jsx';
 
 const router = createBrowserRouter([
-  {path: "/", element: <App />},
+  {path: "/", element: <Landing />},
   {path: "/dashboard", element: <Dashboard />},
   {path: "/about", element: <About />},
   {path: "/contact", element: <Contact />},

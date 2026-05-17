@@ -1,16 +1,18 @@
-import Layout from "./Layout";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
 
 const Landing = () => {
   return (
     <>
-      <Layout/>
+      <Navbar/>
       <body>
         <div>
           <h1>
-            Välkommen till men sida
+            Välkommen till min sida
           </h1>
         </div>
       </body>
+      <Footer/>
     </>
   )
 }
