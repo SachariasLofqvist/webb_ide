@@ -12,7 +12,7 @@ connectDB();
 
 app.use(express.json());
 
-app.use("/api/notes", fileRoutes);
+app.use("", fileRoutes);
 
 
 app.listen(PORT, () => {

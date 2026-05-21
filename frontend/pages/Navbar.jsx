@@ -11,12 +11,12 @@ const Navbar = () => {
         </div>
         <div className="flex-none">
           <Link to={"/contact"}>
-            <button className="btn btn-ghost text-xl">Sign Up</button>
+            <button className="btn btn-ghost text-xl">Contact</button>
           </Link>
         </div>
         <div className="flex-none">
           <Link to={"/demo"}>
-            <button className="btn btn-ghost text-xl left">Login</button>
+            <button className="btn btn-ghost text-xl left">Demo</button>
           </Link>
         </div>
       </div>
