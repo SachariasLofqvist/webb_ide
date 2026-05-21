@@ -12,7 +12,7 @@ connectDB();
 
 app.use(express.json());
 
-app.use("", fileRoutes);
+app.use(fileRoutes);
 
 
 app.listen(PORT, () => {
