@@ -10,11 +10,6 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="flex-none">
-          <Link to={"/contact"}>
-            <button className="btn btn-ghost text-xl">Contact</button>
-          </Link>
-        </div>
-        <div className="flex-none">
           <Link to={"/demo"}>
             <button className="btn btn-ghost text-xl left">Demo</button>
           </Link>
