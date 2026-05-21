@@ -18,7 +18,7 @@ async function buildFileTree(currentDir, relativePath = ""){
                 name: entry.name,
                 type: "directory",
                 path: nextRelativePath,
-                childeren: await buildFileTree(nextAbsolutePath, nextRelativePath)
+                children: await buildFileTree(nextAbsolutePath, nextRelativePath)
             });
             
         } else{

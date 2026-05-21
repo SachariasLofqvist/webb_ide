@@ -11,7 +11,7 @@ export default function Demo() {
 
   useEffect(() => {
 
-    axios.get('/demo')
+    axios.get('/api/tree')
       .then(res => {
         if (res.data.tree) setFileTree(res.data.tree)
       })
@@ -20,7 +20,7 @@ export default function Demo() {
 
   const handleOpenFile = async (filePath) => {
     try {
-      const res = await axios.get("/demo/:id", {
+      const res = await axios.get("/api/read", {
         params: { filePath: filePath}
       });
 
@@ -35,7 +35,7 @@ export default function Demo() {
     if (!currentFilePath) return;
 
     try {
-      await axios.put('/demo/:id', {
+      await axios.put('/api/save', {
         filePath: currentFilePath,
         content: code
       });

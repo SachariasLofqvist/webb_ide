@@ -1,14 +1,17 @@
 import express from "express";
-import { createFile, createFolder, deleteFile, deleteFolder, getFile, getFileTree, saveFile } from "../controllers/ideController";
+import { createFile, createFolder, deleteFile, deleteFolder, getFile, getFileTree, saveFile } from "../controllers/ideController.js";
 
 const router = express.Router();
 
-router.get("/demo", getFileTree)
-router.get("/demo/:id", getFile)
-router.post("/demo", createFile)
-router.post("/demo", createFolder)
-router.put("/demo/:id", saveFile)
-router.delete("/demo/:id", deleteFile)
-router.delete("/demo", deleteFolder)
+// Separata, tydliga adresser för varje funktion
+router.get("/api/tree", getFileTree);
+router.get("/api/read", getFile);
+router.put("/api/save", saveFile);
 
-export default router
+// Dina övriga funktioner
+router.post("/api/file", createFile);
+router.post("/api/folder", createFolder);
+router.delete("/api/file", deleteFile);
+router.delete("/api/folder", deleteFolder);
+
+export default router;
