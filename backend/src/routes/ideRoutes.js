@@ -1,5 +1,5 @@
 import express from "express";
-import { createFile, createFolder, deleteFile, deleteFolder, getFile, getFileTree, saveFile } from "../controllers/ideController.js";
+import { createFile, createFolder, deleteFile, deleteFolder, getFile, getFileTree, runFile, saveFile } from "../controllers/ideController.js";
 
 const router = express.Router();
 
@@ -11,6 +11,7 @@ router.put("/api/save", saveFile);
 // Dina övriga funktioner
 router.post("/api/file", createFile);
 router.post("/api/folder", createFolder);
+router.post("/api/run", runFile);
 router.delete("/api/file", deleteFile);
 router.delete("/api/folder", deleteFolder);
 

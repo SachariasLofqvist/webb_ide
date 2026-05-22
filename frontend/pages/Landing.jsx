@@ -1,7 +1,6 @@
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 import { Link } from "react-router-dom";
-
+import Footer from '../lib/Footer.jsx'
+import Navbar from '../lib/Navbar.jsx'
 
 const Landing = () => {
   return (
