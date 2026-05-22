@@ -88,7 +88,7 @@ export async function deleteFile(req, res) {
   }
 }
 
-export async function createFolder(res, req) {
+export async function createFolder(req, res) {
   try {
     const { folderPath, folderName } = req.body;
     const targetPath = path.join(WORKSPACE_DIR, folderPath, folderName);
@@ -105,7 +105,7 @@ export async function createFolder(res, req) {
   }
 }
 
-export async function deleteFolder(res, req) {
+export async function deleteFolder(req, res) {
   try {
     const { folderPath } = req.body;
     const targetPath = path.join(WORKSPACE_DIR, folderPath);
@@ -141,7 +141,7 @@ export async function runFile(req, res) {
   } else if (filePath.endsWith(".js")) {
     command = `node "${targetPath}"`;
   } else {
-    return res.status(400).json({ error: "Språket stöds inte än" });
+    return res.status(400).json({ error: "Language not supported" });
   }
 
   exec(command, (error, stdout, stderr) => {

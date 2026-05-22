@@ -8,6 +8,7 @@ import Editor from "../lib/Editor";
 export default function Demo() {
   const [fileTree, setFileTree] = useState([]);
   const [currentFilePath, setCurrentFilePath] = useState(null);
+  const [activeFolderPath, setActiveFolderPath] = useState("");
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -40,14 +41,16 @@ export default function Demo() {
   }, []);
 
   const handleOpenFile = async (filePath) => {
+    const parts = filePath.split('/');
+    parts.pop();
+    setActiveFolderPath(parts.join('/'));
+
     try {
-      const res = await axios.get("/api/read", {
-        params: { filePath: filePath },
-      });
+      const res = await axios.get("/api/read", { params: { filePath: filePath} });
       setCurrentFilePath(filePath);
       setCode(res.data.content);
     } catch (error) {
-      console.error("Could not open file", error);
+      console.error("Could not open file", error)
     }
   };
 
@@ -88,10 +91,7 @@ export default function Demo() {
       folderPath = parts.join("/");
     }
     openModal(
-      "createFile",
-      folderPath,
-      "Name of the new file (e.g. index.js)",
-      true,
+      'createFile', activeFolderPath, "Name of the new file (e.g. index.js)", true
     );
   };
 
@@ -102,7 +102,7 @@ export default function Demo() {
       parts.pop();
       folderPath = parts.join("/");
     }
-    openModal("createFolder", folderPath, "Name of the new folder", true);
+    openModal('createFolder', activeFolderPath, "Name of the new folder", true);
   };
 
   const deleteFile = () => {
@@ -168,6 +168,9 @@ export default function Demo() {
           deleteFile={deleteFile}
           deleteFolder={deleteFolder}
           currentFilePath={currentFilePath}
+          handleSelectFolder={setActiveFolderPath} 
+          createFileInFolder={(path) => openModal('createFile', path, "Name of the new file", true)}
+          createFolderInFolder={(path) => openModal('createFolder', path, "Name of the new folder", true)}
         />
 
         <Editor

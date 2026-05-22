@@ -1,8 +1,14 @@
 import { useState, useEffect } from "react";
 
-export default function FileTreeNode({ node, onOpenFile, onDeleteFolder }) {
+export default function FileTreeNode({
+  node,
+  onOpenFile,
+  onDeleteFolder,
+  onCreateFile,
+  onCreateFolder,
+  onSelectFolder,
+}) {
   const [isOpen, setIsOpen] = useState(false);
-
   const [contextMenu, setContextMenu] = useState({ show: false, x: 0, y: 0 });
 
   useEffect(() => {
@@ -43,14 +49,40 @@ export default function FileTreeNode({ node, onOpenFile, onDeleteFolder }) {
               node={child}
               onOpenFile={onOpenFile}
               onDeleteFolder={onDeleteFolder}
+              onCreateFile={onCreateFile}
+              onCreateFolder={onCreateFolder}
+              onSelectFolder={onSelectFolder}
             />
           ))}
+
         {contextMenu.show && (
           <div
             className="fixed z-50 bg-base-200 border border-base-300 shadow-xl rounded-md p-1"
             style={{ top: contextMenu.y, left: contextMenu.x }}
           >
             <ul className="menu menu-sm p-0 text-base-content">
+              <li>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCreateFile(node.path);
+                    setContextMenu({ ...contextMenu, show: false });
+                  }}
+                >
+                  📄 New File
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onCreateFolder(node.path);
+                    setContextMenu({ ...contextMenu, show: false });
+                  }}
+                >
+                  📁 New Folder
+                </button>
+              </li>
               <li>
                 <button
                   className="text-error hover:bg-error/20"
