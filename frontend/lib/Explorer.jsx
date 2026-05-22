@@ -4,14 +4,14 @@ import FileTreeNode from "./FileTree";
 export default function Explorer({
   fileTree,
   handleOpenFile,
-  currentFilePath,
   createFile,
   createFolder,
-  deleteFile,
+  deleteSelected,
   deleteFolder,
   createFileInFolder,
   createFolderInFolder,
   handleSelectFolder,
+  selectedItem,
 }) {
   return (
     <aside className="w-64 bg-base-200 border-r border-base-300 flex flex-col shadow-lg z-10 shrink-0">
@@ -35,10 +35,10 @@ export default function Explorer({
             📁
           </button>
           <button
-            onClick={deleteFile}
+            onClick={deleteSelected}
             className="btn btn-xs btn-ghost btn-square text-error"
-            title="Delete File"
-            disabled={!currentFilePath}
+            title="Delete Selected"
+            disabled={!selectedItem.path}
           >
             🗑️
           </button>

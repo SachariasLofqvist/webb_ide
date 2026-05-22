@@ -35,7 +35,10 @@ export default function FileTreeNode({
     return (
       <div className="ml-4 relative">
         <div
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+            onSelectFolder(node.path);
+          }}
           onContextMenu={handleContextMenu}
           className="cursor-pointer font-bold text-gray-400 hover:text-gray-200 hover:bg-base-300 p-1 rounded select-none flex items-center gap-1"
         >

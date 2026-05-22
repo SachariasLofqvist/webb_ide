@@ -9,6 +9,7 @@ export default function Demo() {
   const [fileTree, setFileTree] = useState([]);
   const [currentFilePath, setCurrentFilePath] = useState(null);
   const [activeFolderPath, setActiveFolderPath] = useState("");
+  const [selectedItem, setSelectedItem] = useState({ type: null, path: "" });
   const [code, setCode] = useState("");
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
@@ -41,17 +42,25 @@ export default function Demo() {
   }, []);
 
   const handleOpenFile = async (filePath) => {
-    const parts = filePath.split('/');
+    const parts = filePath.split("/");
     parts.pop();
-    setActiveFolderPath(parts.join('/'));
+    setActiveFolderPath(parts.join("/"));
+    setSelectedItem({ type: "file", path: filePath });
 
     try {
-      const res = await axios.get("/api/read", { params: { filePath: filePath} });
+      const res = await axios.get("/api/read", {
+        params: { filePath: filePath },
+      });
       setCurrentFilePath(filePath);
       setCode(res.data.content);
     } catch (error) {
-      console.error("Could not open file", error)
+      console.error("Could not open file", error);
     }
+  };
+
+  const handleSelectFolder = (folderPath) => {
+    setActiveFolderPath(folderPath);
+    setSelectedItem({ type: "folder", path: folderPath });
   };
 
   const handleSave = async () => {
@@ -84,35 +93,36 @@ export default function Demo() {
   };
 
   const createFile = () => {
-    let folderPath = "";
-    if (currentFilePath) {
-      const parts = currentFilePath.split("/");
-      parts.pop();
-      folderPath = parts.join("/");
-    }
     openModal(
-      'createFile', activeFolderPath, "Name of the new file (e.g. index.js)", true
+      "createFile",
+      activeFolderPath,
+      "Name of the new file (e.g. index.js)",
+      true,
     );
   };
 
   const createFolder = () => {
-    let folderPath = "";
-    if (currentFilePath) {
-      const parts = currentFilePath.split("/");
-      parts.pop();
-      folderPath = parts.join("/");
-    }
-    openModal('createFolder', activeFolderPath, "Name of the new folder", true);
+    openModal("createFolder", activeFolderPath, "Name of the new folder", true);
   };
 
-  const deleteFile = () => {
-    if (!currentFilePath) return;
-    openModal(
-      "deleteFile",
-      currentFilePath,
-      `Are you sure you want to delete ${currentFilePath}?`,
-      false,
-    );
+  const deleteSelected = () => {
+    if (!selectedItem.path) return;
+
+    if (selectedItem.type === "file") {
+      openModal(
+        "deleteFile",
+        selectedItem.path,
+        `Are you sure you want to delete ${selectedItem.path}?`,
+        false,
+      );
+    } else if (selectedItem.type === "folder") {
+      openModal(
+        "deleteFolder",
+        selectedItem.path,
+        `Are you sure you want to delete the folder ${selectedItem.path} and all its contents?`,
+        false,
+      );
+    }
   };
 
   const deleteFolder = (folderPath) => {
@@ -145,8 +155,10 @@ export default function Demo() {
         await axios.delete("/api/file", { data: { filePath: targetPath } });
         setCurrentFilePath(null);
         setCode("");
+        setSelectedItem({ type: null, path: "" });
       } else if (action === "deleteFolder") {
         await axios.delete("/api/folder", { data: { folderPath: targetPath } });
+        setSelectedItem({ type: null, path: "" });
       }
 
       setModalConfig({ ...modalConfig, isOpen: false });
@@ -165,12 +177,16 @@ export default function Demo() {
           handleOpenFile={handleOpenFile}
           createFile={createFile}
           createFolder={createFolder}
-          deleteFile={deleteFile}
+          deleteSelected={deleteSelected}
           deleteFolder={deleteFolder}
-          currentFilePath={currentFilePath}
-          handleSelectFolder={setActiveFolderPath} 
-          createFileInFolder={(path) => openModal('createFile', path, "Name of the new file", true)}
-          createFolderInFolder={(path) => openModal('createFolder', path, "Name of the new folder", true)}
+          selectedItem={selectedItem}
+          handleSelectFolder={handleSelectFolder}
+          createFileInFolder={(path) =>
+            openModal("createFile", path, "Name of the new file", true)
+          }
+          createFolderInFolder={(path) =>
+            openModal("createFolder", path, "Name of the new folder", true)
+          }
         />
 
         <Editor
